@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Saldo!</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h2, p, label, input, button {
+            display: block;
+            margin: 10px auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 900;
+            color: #3498db;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            font-weight: 900;
+            color: #7aff00;
+        }
+
+        p {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        label {
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        button, a {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input {
+            width: calc(50% - 5px);
+            padding: 8px;
+            box-sizing: border-box;
+            color: #000; /* Adicionado para números em preto */
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Calcular Saldo</h2>
+
+    <label for="pesoMenor">Peso Menor:</label>
+    <input type="number" id="pesoMenor" step="0.01" placeholder="Informe o Peso Menor">
+
+    <label for="freteCombinado">Frete Combinado(Tar):</label>
+    <input type="number" id="freteCombinado" step="0.01" placeholder="Informe o Frete Combinado(Tar)">
+
+    <button onclick="calcularResultado()">Calcular</button>
+
+    <p>Resultado: <span id="resultado"></span></p>
+
+    <h3>Insirir Descontos:</h3>
+
+    <label for="manual1"></label>
+    <input type="text" id="manual1" placeholder="Cliqie aqui Jovem" oninput="calcularResultado()">
+
+    <label for="manual2"></label>
+    <input type="text" id="manual2" placeholder="Clique aqui Jovem" oninput="calcularResultado()">
+
+    <label for="manual3"></label>
+    <input type="text" id="manual3" placeholder="Clique aqui Jovem" oninput="calcularResultado()">
+
+    <label for="manual4"></label>
+    <input type="text" id="manual4" placeholder="Clique aqui Jovem" oninput="calcularResultado()">
+
+    <label for="manual5"></label>
+    <input type="text" id="manual5" placeholder="Clique aqui Jovem" oninput="calcularResultado()">
+
+    <label for="manual6"></label>
+    <input type="text" id="manual6" placeholder="Clique aqui Jovem" oninput="calcularResultado()">
+
+    <label for="manual7"></label>
+    <input type="text" id="manual7" placeholder="Clique aqui Jovem" oninput="calcularResultado()">
+
+    <script>
+        function formatarNumero(numero) {
+            return numero.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&.').replace('.', ',');
+        }
+
+        function calcularResultado() {
+            const pesoMenor = parseFloat(document.getElementById('pesoMenor').value) || 0;
+            const freteCombinado = parseFloat(document.getElementById('freteCombinado').value) || 0;
+
+            const resultadoMultiplicacao = pesoMenor * freteCombinado;
+
+            const valoresManuais = Array.from({ length: 7 }, (_, index) => {
+                const valorManual = parseFloat(document.getElementById(`manual${index + 1}`).value.replace(/\./g, '').replace(',', '.')) || 0;
+                return valorManual;
+            });
+
+            const resultadoFinal = resultadoMultiplicacao - valoresManuais.reduce((acc, val) => acc + val, 0);
+
+            document.getElementById('resultado').textContent = formatarNumero(resultadoFinal);
+        }
+    </script>
+</body>
+</html>

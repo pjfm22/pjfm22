@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Quebra!</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h2, p, label, input, button {
+            display: block;
+            margin: 10px auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 900;
+            color: #3498db;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            font-weight: 900;
+            color: #7aff00;
+        }
+
+        p {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        label {
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        button, a {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input {
+            width: calc(50% - 5px);
+            padding: 8px;
+            box-sizing: border-box;
+            color: #000; /* Adicionado para números em preto */
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <label for="pesoOrigem">Peso Origem:</label>
+    <input type="text" id="pesoOrigem" />
+
+    <label for="pesoLiquido">Peso Líquido:</label>
+    <input type="text" id="pesoLiquido" />
+
+    <button onclick="calcularDiferencaPeso()">Calcular Diferença de Peso</button>
+
+    <p id="resultado"></p>
+    <p id="mensagem"></p>
+
+    <!-- Âncora para diferenca.html (inicialmente oculta) -->
+    <a href="diferenca.html" id="linkDiferenca" style="display: none;">Calcular o desconto</a>
+
+    <!-- Âncora para saldo.html (inicialmente oculta) -->
+    <a href="saldo.html" id="linkSaldo" style="display: none;">Calcular Saldo</a>
+
+    <script>
+        function calcularDiferencaPeso() {
+            var pesoOrigem = parseFloat(document.getElementById("pesoOrigem").value.replace(",", "").replace(".", "").replace(" ", ""));
+            var pesoLiquido = parseFloat(document.getElementById("pesoLiquido").value.replace(",", "").replace(".", "").replace(" ", ""));
+
+            if (!isNaN(pesoOrigem) && !isNaN(pesoLiquido)) {
+                var diferencaPeso = pesoOrigem - pesoLiquido;
+
+                // Exibe a âncora para diferenca.html se o resultado for positivo
+                if (diferencaPeso > 0) {
+                    document.getElementById("linkDiferenca").style.display = "inline";
+                    // Oculta a âncora para saldo.html se o resultado for positivo
+                    document.getElementById("linkSaldo").style.display = "none";
+                    // Exibe mensagem personalizada
+                    document.getElementById("mensagem").innerHTML = "Vish, deu quebra!";
+                    // Exibe o resultado se for positivo
+                    document.getElementById("resultado").style.display = "inline";
+                    document.getElementById("resultado").innerHTML = "Diferença de Peso: " + diferencaPeso.toFixed(2) + " kg";
+                } else if (diferencaPeso < 0) {
+                    // Oculta o resultado se for negativo
+                    document.getElementById("resultado").style.display = "none";
+                    // Oculta a âncora para diferenca.html se o resultado for negativo
+                    document.getElementById("linkDiferenca").style.display = "none";
+                    // Exibe a âncora para saldo.html se o resultado for negativo
+                    document.getElementById("linkSaldo").style.display = "inline";
+                    // Exibe mensagem personalizada
+                    document.getElementById("mensagem").innerHTML = "Sobrou carga!";
+                } else {
+                    // Oculta ambas as âncoras se o resultado for zero
+                    document.getElementById("linkDiferenca").style.display = "none";
+                    document.getElementById("linkSaldo").style.display = "none";
+                    // Exibe mensagem padrão se o resultado for zero
+                    document.getElementById("mensagem").innerHTML = "";
+                    // Exibe o resultado se for zero
+                    document.getElementById("resultado").style.display = "inline";
+                    document.getElementById("resultado").innerHTML = "Quebra de mercadoria: " + diferencaPeso.toFixed(2) + " kg";
+                }
+            } else {
+                // Exibe mensagem de erro se os valores inseridos não forem válidos
+                document.getElementById("resultado").style.display = "none";
+                document.getElementById("mensagem").innerHTML = "Erro nos valores inseridos.";
+                // Oculta ambas as âncoras se os valores inseridos não forem válidos
+                document.getElementById("linkDiferenca").style.display = "none";
+                document.getElementById("linkSaldo").style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

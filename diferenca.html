@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Multifuncional</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h2, p, label, input, button, select {
+            display: block;
+            margin: 10px auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 900;
+            color: #3498db;
+        }
+
+        p {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        label {
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            color: #000; /* Adicionado para números em preto */
+        }
+    </style>
+</head>
+<body>
+    
+    <h2>Calcular Valor por kg</h2>
+    
+    <label for="st1">Valor da Mercadoria:</label>
+    <input type="number" id="st1">
+    
+    <label for="pb1">Peso Bruto:</label>
+    <input type="number" id="pb1">
+    
+    <button onclick="calcularDivisao()">Calcular</button>
+    
+    <p id="resultado1"></p>
+    <br>
+    <br>
+
+    <h2>Calcular Tolerância</h2>
+
+    <p>
+        Aviso: Se a tolerância for 0,0% desconte toda a quebra!
+    </p>
+
+    <label for="valor">Peso Origem:</label>
+  <input type="text" id="valor">
+
+  <label for="porcentagem">Tolerância</label>
+  <select id="porcentagem">
+    <option value="0.0025">0,25%</option>
+    <option value="0.0020">0,20%</option>
+    <option value="0.0000">0,00%</option>
+  </select>
+
+  <button onclick="calcularPorcentagem()">Calcular</button>
+
+  <p id="resultado"></p>
+    <br>
+    
+    <h2>Calcular quantidade de kg a ser descontado </h2>
+    <form>
+        <label for="valor1">Quebra de carga</label>
+        <input type="number" id="valor1" name="valor1" required>
+
+        <label for="valor2">Tolerância em kg</label>
+        <input type="number" id="valor2" name="valor2" required>
+
+        <button type="button" onclick="subtrairValores()">Calcular</button>
+
+        <p id="resultadoSubtracao"></p>        
+    </form>
+    <br>
+    
+    <h2>Valor em Reais a descontar</h2>
+    <form>
+        <label for="valorPorKg">Valor por kg:</label>
+        <input type="number" id="valorPorKg" name="valorPorKg">
+
+        <label for="quebra">Kg a ser descontado:</label>
+        <input type="number" id="quebra" name="quebra">
+
+        <button type="button" onclick="calcularTotal()">Calcular Total</button>
+
+        <p id="resultadoTotal"></p>
+    </form>
+
+    <br>
+
+    <h2>Calcular Saldo da Carta Frete</h2>
+
+    <form id="calculadoraForm">
+        <label for="peso">Peso Menor (COM PONTO):</label>
+        <input type="text" id="peso" placeholder="Clique Aqui Jovem :)">
+
+        <label for="valorFrete">Valor do Frete Combinado:</label>
+        <input type="text" id="valorFrete" placeholder="Clique Aqui Jovem :)">
+
+        <label for="adiantamento">Adiantamento:</label>
+        <input type="text" id="adiantamento" placeholder="Clique Aqui Jovem :)">
+
+        <label for="descontoMotorista">Desconto de Motorista:</label>
+        <input type="text" id="descontoMotorista" placeholder="Clique Aqui Jovem :)">
+
+        <label for="riscoVida">Risco de Vida:</label>
+        <input type="text" id="riscoVida" placeholder="Clique Aqui Jovem :)">
+
+        <label for="descontoQuebra">Desconto de Quebra:</label>
+        <input type="text" id="descontoQuebra" placeholder="Clique Aqui Jovem :)">
+
+        <button type="button" onclick="calcularSaldo()">Calcular Saldo</button>
+
+        <p id="resultadoSaldo"></p>
+    </form>
+
+    <script>
+        function formatarNumero(numero) {
+            return numero.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function substituirVirgulaPorPonto(valor) {
+            return valor.replace(',', '.');
+        }
+
+        function calcularSaldo() {
+            const peso = parseFloat(substituirVirgulaPorPonto(document.getElementById('peso').value)) || 0;
+            const valorFrete = parseFloat(substituirVirgulaPorPonto(document.getElementById('valorFrete').value)) || 0;
+            const adiantamento = parseFloat(substituirVirgulaPorPonto(document.getElementById('adiantamento').value)) || 0;
+            const descontoMotorista = parseFloat(substituirVirgulaPorPonto(document.getElementById('descontoMotorista').value)) || 0;
+            const descontoQuebra = parseFloat(substituirVirgulaPorPonto(document.getElementById('descontoQuebra').value)) || 0;
+            const riscoVida = parseFloat(substituirVirgulaPorPonto(document.getElementById('riscoVida').value)) || 0;
+
+            const saldo = peso * valorFrete - adiantamento - descontoMotorista - descontoQuebra - riscoVida;
+            const saldoFormatado = formatarNumero(saldo);
+            document.getElementById('resultadoSaldo').textContent = `Saldo Final: R$ ${saldoFormatado}`;
+        }
+
+        function calcularDivisao() {
+            var st1 = parseFloat(document.getElementById('st1').value);
+            var pb1 = parseFloat(document.getElementById('pb1').value);
+
+            if (pb1 !== 0) {
+                var resultado1 = st1 / pb1;
+                var resultado1Formatado = resultado1.toFixed(2);
+                document.getElementById('resultado1').innerText = "O valor por kg é: " + resultado1Formatado;
+            } else {
+                document.getElementById('resultado1').innerText = "Impossível dividir por zero";
+            }
+        }
+
+        function calcularPorcentagem() {
+      const valorInput = document.getElementById('valor');
+      const porcentagemSelect = document.getElementById('porcentagem');
+      const resultadoOutput = document.getElementById('resultado');
+
+      if (valorInput && porcentagemSelect && resultadoOutput) {
+        const valorManualString = valorInput.value;
+        const valorManual = parseFloat(valorManualString.replace(/\./g, '').replace(',', '.')) || 0;
+        const porcentagem = parseFloat(porcentagemSelect.value) || 0;
+        const resultado = valorManual * porcentagem;
+        resultadoOutput.innerHTML = `Resultado: ${resultado.toFixed(2)}`;
+      } else {
+        console.error('Um ou mais elementos não foram encontrados.');
+      }
+    }
+
+        function calcularTotal() {
+    var valorPorKg = parseFloat(document.getElementById("valorPorKg").value);
+    var quebra = parseFloat(document.getElementById("quebra").value);
+
+    var valorTotal = valorPorKg * quebra;
+
+    // Set the result in the "Desconto de Quebra" input field
+    document.getElementById("descontoQuebra").value = valorTotal.toFixed(2);
+
+    // Display the result if needed
+    // document.getElementById("resultadoTotal").innerText = "Valor total: " + valorTotal;
+}
+
+        
+        function calcularPorcentagem() {
+    const valorInput = document.getElementById('valor');
+    const porcentagemSelect = document.getElementById('porcentagem');
+    const resultadoOutput = document.getElementById('resultado');
+    const valor2Input = document.getElementById('valor2');
+
+    if (valorInput && porcentagemSelect && resultadoOutput && valor2Input) {
+        const valorManualString = valorInput.value;
+        const valorManual = parseFloat(valorManualString.replace(/\./g, '').replace(',', '.')) || 0;
+        const porcentagem = parseFloat(porcentagemSelect.value) || 0;
+
+        if (porcentagem === 0) {
+            resultadoOutput.innerHTML = 'Descontar toda a quebra da carga';
+            // Definir o valor 0 no elemento "valor2"
+            valor2Input.value = 0;
+        } else {
+            const resultadoEmKg = valorManual * porcentagem;
+            resultadoOutput.innerHTML = `Quebra Tolerável: ${resultadoEmKg.toFixed(2)} kg`;
+            // Definir o resultado no elemento "valor2"
+            valor2Input.value = resultadoEmKg.toFixed(2);
+        }
+    } else {
+        console.error('Um ou mais elementos não foram encontrados.');
+    }
+}
+
+
+
+
+        function subtrairValores() {
+            var valor1 = parseFloat(document.getElementById("valor1").value);
+            var valor2 = parseFloat(document.getElementById("valor2").value);
+            var resultado = valor1 - valor2;
+            document.getElementById("resultadoSubtracao").innerText = "Resultado: " + resultado;
+        }function subtrairValores() {
+    var valor1 = parseFloat(document.getElementById("valor1").value);
+    var valor2 = parseFloat(document.getElementById("valor2").value);
+    var resultado = valor1 - valor2;
+    document.getElementById("resultadoSubtracao").innerText = "Resultado: " + resultado;
+
+    // Set the result in the "quebra" input field
+    function realizarOperacao() {
+    try {
+        // Simulando uma operação que pode gerar "NaN"
+        let resultado = 10 / 0;  // Divisão por zero para simular um erro
+
+        // Formatar o resultado (este passo pode variar dependendo da sua lógica real)
+        let resultadoFormatado = resultado.toFixed(2); // Arredondando para duas casas decimais
+
+        // Definir o valor formatado no primeiro elemento HTML
+        document.getElementById('valorPorKg').value = resultadoFormatado;
+
+        // Definir o valor formatado no segundo elemento HTML
+        document.getElementById('valor2').value = resultadoFormatado;
+
+        // Incorporar a correção fornecida
+        document.getElementById("quebra").value = resultado;
+    } catch (error) {
+        // Tratar exceções
+        console.error("Erro:", error.message);
+        // Defina um valor padrão ou mensagem de erro nos elementos HTML se necessário
+        document.getElementById('valorPorKg').value = "Erro ao calcular";
+        document.getElementById('valor2').value = "Erro ao calcular";
+    }
+}
+
+
+    // Display the result in the element with id "resultadoTotal" if needed
+    // document.getElementById("resultadoTotal").innerText = "Valor total: " + resultado;
+}
+
+        
+        function exibirResultadoValorPorKg(resultado) {
+    // Coloque o resultado no elemento "valorPorKg"
+    document.getElementById('valorPorKg').value = resultado.toFixed(2);
+}
+
+function calcularDivisao() {
+    var st1 = parseFloat(document.getElementById('st1').value);
+    var pb1 = parseFloat(document.getElementById('pb1').value);
+
+    if (pb1 !== 0) {
+        var resultado1 = st1 / pb1;
+        var resultado1Formatado = resultado1.toFixed(2);
+
+        // Chame a função para exibir o resultado no elemento "valorPorKg"
+        exibirResultadoValorPorKg(resultado1);
+
+        // Exibir mensagem opcional
+        document.getElementById('resultado1').innerText = "O valor por kg é: " + resultado1Formatado;
+    } else {
+        document.getElementById('resultado1').innerText = "Impossível dividir por zero";
+    }
+}
+
+
+    </script>
+
+</body>
+</html>
